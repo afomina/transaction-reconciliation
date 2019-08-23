@@ -3,6 +3,7 @@ package andrianovaav.transaction.parser;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Financial transaction
@@ -116,4 +117,18 @@ public class FinTransaction {
         return Objects.hash(profileName, transactionDate, transactionAmount, transactionNarrative,
                 transactionDescription, transactionId, transactionType, walletReference);
     }
+
+    public int countCommonFields(FinTransaction other) {
+        Function<Boolean, Integer> toInt = b -> b ? 1 : 0;
+        return toInt.apply(profileName.equals(other.profileName)) +
+                toInt.apply(Objects.equals(transactionDate, other.transactionDate)) +
+                toInt.apply(Objects.equals(transactionAmount, other.transactionAmount)) +
+                toInt.apply(Objects.equals(transactionNarrative, other.transactionNarrative)) +
+                toInt.apply(Objects.equals(transactionDescription, other.transactionDescription)) +
+                toInt.apply(Objects.equals(transactionId, other.transactionId)) +
+                toInt.apply(Objects.equals(transactionType, other.transactionType)) +
+                toInt.apply(Objects.equals(walletReference, other.walletReference));
+
+    }
+
 }
